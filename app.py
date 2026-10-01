@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import os
 from datetime import datetime
-from verifier import DecentralizedLedgerEngine :
+from verifier import DecentralizedLedgerEngine 
 
 # Global Configuration Theme Setup
 st.set_page_config(
