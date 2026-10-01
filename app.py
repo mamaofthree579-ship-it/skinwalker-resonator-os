@@ -160,3 +160,65 @@ function evaluatePixel(samples) {
     st.code(custom_javascript_code, language="javascript")
     
     st.info("ℹ️ Optimization Tip: Ensure you set the pre-query search filter constraint to Cloud Cover < 5% to prevent atmospheric vapor columns from distorting the SWIR return values.")
+
+# ============================================================================
+# MODULE 3: HISTORICAL COASTWISE TRANSIT REGISTRY
+# TARGET: GEOMYTHOLOGY CROSSROADS & LINEAGE INTERCEPT
+# ============================================================================
+elif module_selection == "3. Historical Coastwise Transit Registry":
+    st.title("🗄️ Domestic Coastwise Slave Trade & Telluric Intersections")
+    st.markdown("### Mapping the Historical Lineages of Systemic Institutional Immunity")
+    st.write("---")
+    
+    st.markdown("""
+    The multi-tiered, delegated safehouse network deployed by modern clandestine networks is the direct architectural evolution of the 19th-century coastwise shipping lanes.
+    The data matrix below maps the explicit geographical checkpoints where original trafficking syndicates aligned their assets with deep-basin capacitors and geomagnetic variance sectors.
+    """)
+    
+    # Historical Relational Database Matrix
+    historical_nodes = {
+        "Checkpoint Label": [
+            "HUB-01: Baltimore Inner Basin",
+            "HUB-02: Alexandria Potomac Wharves",
+            "CP-03: Cape Hatteras Ridge",
+            "CP-04: St. Augustine Karst Pass",
+            "TERM-05: Mobile Bay Terminal",
+            "TERM-06: New Orleans Delta Basin"
+        ],
+        "Geographic Coordinates": [
+            "39.283889, -76.606667",
+            "38.804167, -77.041111",
+            "35.253333, -75.519444",
+            "29.894722, -81.311667",
+            "30.693889, -88.042500",
+            "29.953889, -90.070000"
+        ],
+        "Telluric / Crustal Interface Profile": [
+            "Piedmont Suture Zone boundary. Dense quartz-silicate layers generate continuous micro-seismic grounding fields.",
+            "Potomac River Fault System. Tectonic stress fractures drive low-frequency ground potential loops into the water table.",
+            "Mid-Atlantic Shelf Flexure. Extreme thermal gradients and deep basaltic shelves force sharp local magnetic deviations.",
+            "Limestone Karst Voids. Massive subterranean water capacitors intersecting the historic outer edge of the SAA envelope.",
+            "High-salinity intertidal mudflats maximizing crustal conductivity, locking deep electrical grounding lines.",
+            "Mississippi Delta Sedimentary Basin. Miles of conductive sediment act as a massive planet-scale battery spire grid."
+        ],
+        "Modern Successor Equivalent": [
+            "Logistical processing nodes hidden behind urban corporate logistics facades.",
+            "Primary command bunkers, administrative shells, and Special Access Programs (SAPs) planning hubs.",
+            "Transmedium testing corridors, un-monitored naval boundaries, and signals intercept blocks.",
+            "Offshore research platforms, private maritime installations, and flags-of-convenience vessels.",
+            "Isolated testing installations, localized supply-line cells, and remote storage caches.",
+            "Deep subterranean installations, sub-surface command cavities, and hyper-monitored urban grids."
+        ]
+    }
+    
+    df_history = pd.DataFrame(historical_nodes)
+    st.dataframe(df_history, use_container_width=True)
+    
+    st.write("---")
+    st.header("⚖️ The Extraterritorial Sovereign Shield Mechanics")
+    st.markdown("""
+    By utilizing the **Law of the Flag** along coastwise shipping tracks, historical syndicates ensured that once a cargo brig cleared harbor and entered the three-mile territorial waters limit, the contents remained under the exclusive sovereign jurisdiction of the vessel's registration flag.
+    
+    Modern black-budget operations and unacknowledged corporate laboratories copy this exact blueprint: by running their installations inside **hyper-insulated deep basins or aboard open-registry ships in international zones**, they mathematically ensure that local civil courts and municipal authorities are legally locked out, securely maintaining their data bottlenecks away from public oversight.
+    """)
+    st.success("🔒 Historical context maps successfully bound to production ledger blocks. The multi-generational lineage is exposed.")
