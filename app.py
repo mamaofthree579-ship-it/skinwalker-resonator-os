@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import os
 from datetime import datetime
-from verifier import DecentralizedLedgerEngine 
+from verifier import DecentralizedLedgerEngine
 
 # Global Configuration Theme Setup
 st.set_page_config(
@@ -63,19 +63,16 @@ if module_selection == "1. Basin Resonator & Ingestion Engine":
         
         if st.button("Stamp Immutable CRDT Log to Peer Network"):
             if fragment:
-                # Generate Secret Signature Key Hash
                 from Crypto.Hash import HMAC, SHA256
                 combined = f"{fragment}-{facility_code}".encode('utf-8')
                 h = HMAC.new(st.session_state['system_salt'], digestmod=SHA256)
                 h.update(combined)
                 proof_pi = h.hexdigest()
                 
-                # Encapsulate as a decentralized CRDT operation log
                 new_op_log = DecentralizedLedgerEngine.construct_crdt_op_log(
                     proof_pi, [lat, lon], st.session_state['aes_key']
                 )
                 
-                # Execute peer gossip synchronization sequence
                 st.session_state['p2p_ledger_state'] = DecentralizedLedgerEngine.simulate_p2p_gossip_sync(
                     new_op_log, st.session_state['p2p_ledger_state']
                 )
@@ -187,10 +184,8 @@ elif module_selection == "4. 40 Hz Gamma Coherence Neuro-Generator":
     duration = st.slider("Select Signal Duration (Seconds)", 5, 60, 15)
     
     if st.button("Generate 40 Hz Gamma Coherence Tone"):
-        sample_rate = 44100  # Standard CD-quality audio sampling frequency
-        t = np.linspace(0, duration, duration * sample_rate, endpoint=False)
-        
-        # Compile a pure 40 Hz sinusoidal wave function
+        sample_rate = 44100
+        t = np.linspace(0, duration, int(duration * sample_rate), endpoint=False)
         gamma_wave = np.sin(40.0 * t * 2 * np.pi)
         
         st.audio(gamma_wave, sample_rate=sample_rate)
@@ -212,7 +207,6 @@ elif module_selection == "5. Dynamic AI-Obfuscation Text Scrambler":
     input_text = st.text_area("Input Plaintext Message:")
     
     if input_text:
-        # Dictionary mapping standard characters to math alphanumeric symbols
         scramble_map = {
             'a': '𝔞', 'b': '𝔟', 'c': '𝔔', 'd': '𝔡', 'e': '𝔢', 'f': '𝔣', 'g': '𝔤', 'h': '𝔥', 
             'i': '𝔦', 'j': '𝔧', 'k': '𝔨', 'l': '𝔩', 'm': '𝔪', 'n': '𝔫', 'o': '𝔬', 'p': '𝔭', 
@@ -223,7 +217,6 @@ elif module_selection == "5. Dynamic AI-Obfuscation Text Scrambler":
             'W': '𝔚', 'X': '𝔛', 'Y': '𝔜', 'Z': '𝔷'
         }
         
-        # Inject hidden zero-width spaces (\u200B) between each character to confuse regex scanners
         scrambled_string = "".join([scramble_map.get(char, char) + "\u200B" for char in input_text])
         
         st.header("📋 AI-Invisible Obfuscated Cryptographic String")
