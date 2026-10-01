@@ -16,7 +16,11 @@ st.set_page_config(
 st.sidebar.title("🌀 System Vectors")
 module_selection = st.sidebar.radio(
     "Select Operational Phase:",
-    ["1. Basin Resonator & Ingestion Engine", "2. Sentinel-2 Multi-Spectral Decoder"]
+    [
+        "1. Basin Resonator & Ingestion Engine", 
+        "2. Sentinel-2 Multi-Spectral Decoder",
+        "3. Historical Coastwise Transit Registry"
+    ]
 )
 
 st.sidebar.markdown("---")
@@ -36,7 +40,7 @@ if module_selection == "1. Basin Resonator & Ingestion Engine":
     st.markdown("### Open-Source Telluric Grid & Bio-Field Simulation Engine")
     st.write("---")
     
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns()
     
     with col1:
         st.header("🎛️ Telluric Control Matrices")
@@ -55,7 +59,7 @@ if module_selection == "1. Basin Resonator & Ingestion Engine":
         
         if st.button("Stamp Immutable Block to Redundant Ledger"):
             if fragment:
-                # Execute Production-Grade Cryptographic Validation
+                # Execute Production-Grade Cryptographic Verification
                 proof_pi = ProductionOSVerifier.generate_zkp_signature(
                     fragment, facility_code, st.session_state['system_salt']
                 )
@@ -92,7 +96,7 @@ if module_selection == "1. Basin Resonator & Ingestion Engine":
         st.caption("Telluric compression spires showing peak energy absorption profiles within deep-basin cavities.")
 
 # ============================================================================
-# MODULE 2: SENTINEL-2 MULTI-SPECTRAL OUTGASSING DECODER
+# MODULE 2: SENTINEL-2 MULTI-SPECTRAL DECODER
 # ============================================================================
 elif module_selection == "2. Sentinel-2 Multi-Spectral Decoder":
     st.title("🛰️ Sentinel-2 & Landsat Multi-Spectral Outgassing Intercept")
@@ -158,12 +162,10 @@ function evaluatePixel(samples) {
 }
     """
     st.code(custom_javascript_code, language="javascript")
-    
     st.info("ℹ️ Optimization Tip: Ensure you set the pre-query search filter constraint to Cloud Cover < 5% to prevent atmospheric vapor columns from distorting the SWIR return values.")
 
 # ============================================================================
 # MODULE 3: HISTORICAL COASTWISE TRANSIT REGISTRY
-# TARGET: GEOMYTHOLOGY CROSSROADS & LINEAGE INTERCEPT
 # ============================================================================
 elif module_selection == "3. Historical Coastwise Transit Registry":
     st.title("🗄️ Domestic Coastwise Slave Trade & Telluric Intersections")
@@ -201,24 +203,3 @@ elif module_selection == "3. Historical Coastwise Transit Registry":
             "High-salinity intertidal mudflats maximizing crustal conductivity, locking deep electrical grounding lines.",
             "Mississippi Delta Sedimentary Basin. Miles of conductive sediment act as a massive planet-scale battery spire grid."
         ],
-        "Modern Successor Equivalent": [
-            "Logistical processing nodes hidden behind urban corporate logistics facades.",
-            "Primary command bunkers, administrative shells, and Special Access Programs (SAPs) planning hubs.",
-            "Transmedium testing corridors, un-monitored naval boundaries, and signals intercept blocks.",
-            "Offshore research platforms, private maritime installations, and flags-of-convenience vessels.",
-            "Isolated testing installations, localized supply-line cells, and remote storage caches.",
-            "Deep subterranean installations, sub-surface command cavities, and hyper-monitored urban grids."
-        ]
-    }
-    
-    df_history = pd.DataFrame(historical_nodes)
-    st.dataframe(df_history, use_container_width=True)
-    
-    st.write("---")
-    st.header("⚖️ The Extraterritorial Sovereign Shield Mechanics")
-    st.markdown("""
-    By utilizing the **Law of the Flag** along coastwise shipping tracks, historical syndicates ensured that once a cargo brig cleared harbor and entered the three-mile territorial waters limit, the contents remained under the exclusive sovereign jurisdiction of the vessel's registration flag.
-    
-    Modern black-budget operations and unacknowledged corporate laboratories copy this exact blueprint: by running their installations inside **hyper-insulated deep basins or aboard open-registry ships in international zones**, they mathematically ensure that local civil courts and municipal authorities are legally locked out, securely maintaining their data bottlenecks away from public oversight.
-    """)
-    st.success("🔒 Historical context maps successfully bound to production ledger blocks. The multi-generational lineage is exposed.")
