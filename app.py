@@ -40,7 +40,7 @@ if module_selection == "1. Basin Resonator & Ingestion Engine":
     st.markdown("### Open-Source Telluric Grid & Bio-Field Simulation Engine")
     st.write("---")
     
-    col1, col2 = st.columns()
+    col1, col2 = st.columns([1,1])
     
     with col1:
         st.header("🎛️ Telluric Control Matrices")
