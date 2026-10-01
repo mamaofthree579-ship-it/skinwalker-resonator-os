@@ -14,7 +14,7 @@ class DecentralizedLedgerEngine:
         block_metadata = {
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "zkp_proof_signature": proof_pi,
-            "geo_vector_anchor": coordinates, # [Latitude, Longitude]
+            "geo_vector_anchor": coordinates,  # [Latitude, Longitude]
             "system_status": "VERIFIED_VACUUM_POLARIZATION_NODE"
         }
         
@@ -27,7 +27,7 @@ class DecentralizedLedgerEngine:
         # Compute the Merkle-DAG content identifier hash (Simulated IPFS CID)
         hash_engine = SHA256.new()
         hash_engine.update(ciphertext + cipher.nonce + tag)
-        merkle_cid = "Qm" + hash_engine.hexdigest()[:44] # Mimic traditional IPFS v1 multihash
+        merkle_cid = "Qm" + hash_engine.hexdigest()[:44]
         
         return {
             "IPFS_CID": merkle_cid,
@@ -44,16 +44,13 @@ class DecentralizedLedgerEngine:
         Simulates decentralized IPFS Pubsub peer synchronization. Automatically merges 
         incoming Merkle-CRDT operation logs to achieve global network consistency.
         """
-        # Verify the block contains a valid content identifier
         if not incoming_block["IPFS_CID"].startswith("Qm"):
             return current_peer_state
             
-        # Check for duplicate logs in the existing peer state array
         for established_block in current_peer_state:
             if established_block["IPFS_CID"] == incoming_block["IPFS_CID"]:
-                return current_peer_state # CRDT Idempotency: Ignore duplicate operations
+                return current_peer_state
                 
         current_peer_state.append(incoming_block)
-        # Sort by logical time sequence to achieve eventual consistency across all user nodes
         current_peer_state.sort(key=lambda x: x["CRDT_CLOCK_SEQUENCE"], reverse=True)
         return current_peer_state
