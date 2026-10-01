@@ -1,62 +1,20 @@
 import json
-import sqlite3
 import os
 from datetime import datetime
 from Crypto.Hash import SHA256, HMAC
 from Crypto.Cipher import AES
 
-DB_FILE = "ledger_matrix.db"
-
-class ProductionOSVerifier:
+class DecentralizedLedgerEngine:
     @staticmethod
-    def initialize_database():
+    def construct_crdt_op_log(proof_pi: str, coordinates: list, secret_key: bytes) -> dict:
         """
-        Initializes the local SQLite relational database pool.
-        Creates the un-deletable, time-stamped ledger matrices.
+        Encapsulates zero-knowledge signatures inside an AES-256-GCM authenticated block,
+        formatting it as an immutable append-only CRDT log payload for peer-to-peer routing.
         """
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        
-        # Core Table: Facility Ingestion Matrix
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS tbl_facility_registry (
-                block_hash TEXT PRIMARY KEY,
-                timestamp TEXT NOT NULL,
-                zkp_proof_signature TEXT NOT NULL,
-                geo_lat REAL NOT NULL,
-                geo_long REAL NOT NULL,
-                nonce TEXT NOT NULL,
-                tag TEXT NOT NULL,
-                ciphertext TEXT NOT NULL,
-                system_status TEXT NOT NULL
-            )
-        """)
-        conn.commit()
-        conn.close()
-
-    @staticmethod
-    def generate_zkp_signature(raw_text: str, facility_code: str, secret_salt: bytes) -> str:
-        """
-        Generates a production-grade HMAC-SHA256 signature to serve as the 
-        mathematical Proof Pi, discarding the cleartext source material.
-        """
-        combined_payload = f"{raw_text}-{facility_code}".encode('utf-8')
-        h = HMAC.new(secret_salt, digestmod=SHA256)
-        h.update(combined_payload)
-        return h.hexdigest()
-
-    @staticmethod
-    def construct_and_save_block(proof_pi: str, coordinates: list, secret_key: bytes) -> dict:
-        """
-        Encapsulates the data inside an AES-256-GCM authenticated block,
-        stamps it into the local SQLite database pool, and chains it to the ledger.
-        """
-        ProductionOSVerifier.initialize_database()
-        
         block_metadata = {
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "zkp_proof_signature": proof_pi,
-            "geo_vector_anchor": coordinates,
+            "geo_vector_anchor": coordinates, # [Latitude, Longitude]
             "system_status": "VERIFIED_VACUUM_POLARIZATION_NODE"
         }
         
@@ -66,38 +24,14 @@ class ProductionOSVerifier:
         cipher = AES.new(secret_key, AES.MODE_GCM)
         ciphertext, tag = cipher.encrypt_and_digest(serialized_payload)
         
-        # Generate unique block hash
+        # Compute the Merkle-DAG content identifier hash (Simulated IPFS CID)
         hash_engine = SHA256.new()
         hash_engine.update(ciphertext + cipher.nonce + tag)
-        block_hash = hash_engine.hexdigest()
-        
-        # Commit directly to the SQLite local database pool
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        try:
-            cursor.execute("""
-                INSERT INTO tbl_facility_registry 
-                (block_hash, timestamp, zkp_proof_signature, geo_lat, geo_long, nonce, tag, ciphertext, system_status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                block_hash, 
-                block_metadata["timestamp"], 
-                proof_pi, 
-                coordinates[0], 
-                coordinates[1], 
-                cipher.nonce.hex(), 
-                tag.hex(), 
-                ciphertext.hex(), 
-                block_metadata["system_status"]
-            ))
-            conn.commit()
-        except sqlite3.IntegrityError:
-            pass # Prevent crashes from duplicate block attempts
-        finally:
-            conn.close()
+        merkle_cid = "Qm" + hash_engine.hexdigest()[:44] # Mimic traditional IPFS v1 multihash
         
         return {
-            "block_hash": block_hash,
+            "IPFS_CID": merkle_cid,
+            "CRDT_CLOCK_SEQUENCE": datetime.utcnow().timestamp(),
             "nonce": cipher.nonce.hex(),
             "tag": tag.hex(),
             "ciphertext": ciphertext.hex(),
@@ -105,19 +39,21 @@ class ProductionOSVerifier:
         }
 
     @staticmethod
-    def fetch_all_blocks():
+    def simulate_p2p_gossip_sync(incoming_block: dict, current_peer_state: list) -> list:
         """
-        Retrieves the entire mirrored blockchain state from the local SQLite layer.
+        Simulates decentralized IPFS Pubsub peer synchronization. Automatically merges 
+        incoming Merkle-CRDT operation logs to achieve global network consistency.
         """
-        ProductionOSVerifier.initialize_database()
-        conn = sqlite3.connect(DB_FILE)
-        df = pd = None
-        try:
-            # We import pandas locally inside the method to prevent dependencies gridlock
-            import pandas as pd
-            df = pd.read_sql_query("SELECT block_hash, timestamp, geo_lat, geo_long, system_status FROM tbl_facility_registry ORDER BY timestamp DESC", conn)
-        except Exception:
-            df = []
-        finally:
-            conn.close()
-        return df
+        # Verify the block contains a valid content identifier
+        if not incoming_block["IPFS_CID"].startswith("Qm"):
+            return current_peer_state
+            
+        # Check for duplicate logs in the existing peer state array
+        for established_block in current_peer_state:
+            if established_block["IPFS_CID"] == incoming_block["IPFS_CID"]:
+                return current_peer_state # CRDT Idempotency: Ignore duplicate operations
+                
+        current_peer_state.append(incoming_block)
+        # Sort by logical time sequence to achieve eventual consistency across all user nodes
+        current_peer_state.sort(key=lambda x: x["CRDT_CLOCK_SEQUENCE"], reverse=True)
+        return current_peer_state
