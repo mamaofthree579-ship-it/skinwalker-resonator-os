@@ -203,3 +203,24 @@ elif module_selection == "3. Historical Coastwise Transit Registry":
             "High-salinity intertidal mudflats maximizing crustal conductivity, locking deep electrical grounding lines.",
             "Mississippi Delta Sedimentary Basin. Miles of conductive sediment act as a massive planet-scale battery spire grid."
         ],
+        "Modern Successor Equivalent": [
+            "Logistical processing nodes hidden behind urban corporate logistics facades.",
+            "Primary command bunkers, administrative shells, and Special Access Programs (SAPs) planning hubs.",
+            "Transmedium testing corridors, un-monitored naval boundaries, and signals intercept blocks.",
+            "Offshore research platforms, private maritime installations, and flags-of-convenience vessels.",
+            "Isolated testing installations, localized supply-line cells, and remote storage caches.",
+            "Deep subterranean installations, sub-surface command cavities, and hyper-monitored urban grids."
+        ]
+    }
+    
+    df_history = pd.DataFrame(historical_nodes)
+    st.dataframe(df_history, use_container_width=True)
+    
+    st.write("---")
+    st.header("⚖️ The Extraterritorial Sovereign Shield Mechanics")
+    st.markdown("""
+    By utilizing the **Law of the Flag** along coastwise shipping tracks, historical syndicates ensured that once a cargo brig cleared harbor and entered the three-mile territorial waters limit, the contents remained under the exclusive sovereign jurisdiction of the vessel's registration flag.
+    
+    Modern black-budget operations and unacknowledged corporate laboratories copy this exact blueprint: by running their installations inside **hyper-insulated deep basins or aboard open-registry ships in international zones**, they mathematically ensure that local civil courts and municipal authorities are legally locked out, securely maintaining their data bottlenecks away from public oversight.
+    """)
+    st.success("🔒 Historical context maps successfully bound to production ledger blocks. The multi-generational lineage is exposed.")
